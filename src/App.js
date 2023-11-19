@@ -25,16 +25,18 @@ function App() {
         <S.ColumnLine
           style={{ position: 'absolute', left: '135px', top: '400px', height: '30px', border: '3px solid #5c8e8a' }}
         />
-        <S.Box style={{ marginLeft: '170px'}}>
+
+        <S.Box style={{ marginLeft: '170px', height: '89vh' }}>
           <div style={{ margin: '20px' }}>
             <SetTelescope />
             <ManualControl />
             <AutoControl />
             <LogInformation />
-            <Sphere style={{display: 'flex'}}/>
+          </div>
+          <div style={{ marginLeft: '150px', marginTop: '20px' }}>
+            <Sphere />
           </div>
         </S.Box>
-
         <S.RowLine />
       </div>
     </div>

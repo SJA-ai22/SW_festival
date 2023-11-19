@@ -20,7 +20,7 @@ export default function Sphere() {
 
       // const svg = d3.select(d3Container.current);
       let starPath = null;
-      var width = 200; // window.innerWidth;
+      var width = 850; // window.innerWidth;
       var projection = d3.geoOrthographic();
       var sphere = { type: 'Sphere' };
 
@@ -37,7 +37,7 @@ export default function Sphere() {
       };
       height = height(width); // made it as number
 
-      var canvas = d3.select('body').append('canvas').attr('width', width).attr('height', height);
+      var canvas = d3.select(d3Container.current).append('canvas').attr('width', width).attr('height', height);
 
       var context = canvas.node().getContext('2d');
 
@@ -204,6 +204,14 @@ export default function Sphere() {
 
         starPath = d3.geoPath(projectionLookup, context).pointRadius((d) => rScale(d.properties.mag));
 
+        /** the shortest version without rScale
+  starPath = d3.geoPath(projection, context)
+    .pointRadius(d => d.properties ?
+      d3.scaleLinear()
+        .domain(d3.extent(star.features, d => d.properties.mag))
+        .range([5, 1])(d.properties.mag) : 5
+    );
+*/
         function render(highend) {
           context.clearRect(0, 0, width, height);
 
@@ -248,9 +256,9 @@ export default function Sphere() {
 
           if (highend) {
             // Stars Map
-            stars.features.forEach((별) => {
+            stars.features.forEach((star) => {
               context.beginPath();
-              starPath(별);
+              starPath(star);
               context.fillStyle = 'rgba(255, 255, 255, 0.5)';
               context.fill();
             });
@@ -354,8 +362,13 @@ export default function Sphere() {
           );
         }
       });
+      return () => {
+        if (canvas) {
+          canvas.remove();
+        }
+      };
     }
-  }, []);
+  }, []); // Ensure effect only runs once
 
-  return <svg className='d3-component' width={400} height={200} ref={d3Container} />;
+  return <div ref={d3Container} className='d3-component' />;
 }
