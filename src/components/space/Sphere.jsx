@@ -193,25 +193,9 @@ export default function Sphere() {
             )
           )
           .range([d3.max(starsize), 0.25]);
-        /*
-  // - Try to draw stars legend
-  // d3.max() Mag. dimmest: 8
-  // d3.min() Mag. brightest: -1.44
-  cLegend = [d3.min(starsize), 0, 1, 2, 3, 4, 5, 6, 7, d3.max(starsize)];
-*/
-        // drawLegend(d3.min(starsize), d3.max(starsize));
-        // - End Try
 
         starPath = d3.geoPath(projectionLookup, context).pointRadius((d) => rScale(d.properties.mag));
 
-        /** the shortest version without rScale
-  starPath = d3.geoPath(projection, context)
-    .pointRadius(d => d.properties ?
-      d3.scaleLinear()
-        .domain(d3.extent(star.features, d => d.properties.mag))
-        .range([5, 1])(d.properties.mag) : 5
-    );
-*/
         function render(highend) {
           context.clearRect(0, 0, width, height);
 
